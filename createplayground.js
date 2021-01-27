@@ -7,7 +7,7 @@ const name = arguments[0];
 const { exec } = require("child_process");
 
 const srcDir = `templates/playground`;
-const destDir = `playground/${name}`;
+const destDir = `src/${name}`;
 
 if (!fs.existsSync(destDir)) {
   fse.copySync(srcDir, destDir, { overwrite: true }, function (err) {
@@ -19,6 +19,8 @@ if (!fs.existsSync(destDir)) {
   });
 }
 
-process.env["test"] = name;
+process.env["toOpen"] = name;
 
-exec("webpack serve --config ./bundler/webpack.play.js");
+exec("webpack serve --config ./bundler/webpack.dev.js");
+
+exec("code src/" + name + "/script.js");

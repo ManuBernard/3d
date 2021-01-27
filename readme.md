@@ -23,4 +23,4 @@ npm run create <name>
 ## Playgrounds
 
 Are environments to quickly play with threejs.
-Launching the command `npm run create mynewplayground` will duplicate the templates/playground folder in the playground and start a server located to the proper URL.
+Launching the command `npm run create mynewplayground` will duplicate the templates/playground folder in the src and start a server located to the proper output path & open visual studio code to the freshly created script.js.
