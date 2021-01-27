@@ -1,88 +1,95 @@
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
-const path = require('path')
+const dirTree = require("directory-tree");
 
-module.exports = {
-    entry: path.resolve(__dirname, '../src/script.js'),
-    output:
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
+const path = require("path");
+
+// Method to add a project to the webpack config
+const addProject = (name) => {
+  console.log(`../src/${name}/index.html`);
+
+  module.exports.entry[name] = path.resolve(
+    __dirname,
+    `../src/${name}/script.js`
+  );
+
+  module.exports.plugins.push(
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, `../src/${name}/index.html`),
+      chunks: [name],
+      filename: `${name}/index.html`,
+      minify: true,
+    })
+  );
+};
+
+// Init webpack module
+module.exports = { entry: {}, plugins: [] };
+
+// For all projects in the src folder
+const tree = dirTree("./src/");
+
+// Add the project to the webpack config
+tree.children.forEach((project) => {
+  console.log(project.name);
+
+  addProject(project.name);
+});
+
+module.exports.output = {
+  filename: "[name]/bundle.[contenthash].js",
+  path: path.resolve(__dirname, "../dist"),
+};
+
+module.exports.devtool = "source-map";
+
+module.exports.plugins.push(
+  new MiniCSSExtractPlugin({ filename: "[name]/style.css" })
+);
+
+module.exports.module = {
+  rules: [
+    // HTML
     {
-        filename: 'bundle.[contenthash].js',
-        path: path.resolve(__dirname, '../dist')
+      test: /\.(html)$/,
+      use: ["html-loader"],
     },
-    devtool: 'source-map',
-    plugins:
-    [
-        new CopyWebpackPlugin({
-            patterns: [
-                { from: path.resolve(__dirname, '../static') }
-            ]
-        }),
-        new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, '../src/index.html'),
-            minify: true
-        }),
-        new MiniCSSExtractPlugin()
-    ],
-    module:
+
+    // JS
     {
-        rules:
-        [
-            // HTML
-            {
-                test: /\.(html)$/,
-                use: ['html-loader']
-            },
+      test: /\.js$/,
+      exclude: /node_modules/,
+      use: ["babel-loader"],
+    },
 
-            // JS
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use:
-                [
-                    'babel-loader'
-                ]
-            },
+    // CSS
+    {
+      test: /\.css$/,
+      use: [MiniCSSExtractPlugin.loader, "css-loader", "postcss-loader"],
+    },
+    {
+      test: /\.(jpg|png|gif|svg)$/,
+      use: [
+        {
+          loader: "file-loader",
+          options: {
+            outputPath: "assets/images/",
+          },
+        },
+      ],
+    },
 
-            // CSS
-            {
-                test: /\.css$/,
-                use:
-                [
-                    MiniCSSExtractPlugin.loader,
-                    'css-loader'
-                ]
-            },
-
-            // Images
-            {
-                test: /\.(jpg|png|gif|svg)$/,
-                use:
-                [
-                    {
-                        loader: 'file-loader',
-                        options:
-                        {
-                            outputPath: 'assets/images/'
-                        }
-                    }
-                ]
-            },
-
-            // Fonts
-            {
-                test: /\.(ttf|eot|woff|woff2)$/,
-                use:
-                [
-                    {
-                        loader: 'file-loader',
-                        options:
-                        {
-                            outputPath: 'assets/fonts/'
-                        }
-                    }
-                ]
-            }
-        ]
-    }
-}
+    // Fonts
+    {
+      test: /\.(ttf|eot|woff|woff2)$/,
+      use: [
+        {
+          loader: "file-loader",
+          options: {
+            outputPath: "assets/fonts/",
+          },
+        },
+      ],
+    },
+  ],
+};
