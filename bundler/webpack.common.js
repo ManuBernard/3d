@@ -6,8 +6,13 @@ const path = require("path");
 
 // Method to add a project to the webpack config
 const addProject = (name) => {
-  console.log(`../src/${name}/index.html`);
+  let output;
 
+  if (name === "home") {
+    output = "";
+  } else {
+    output = name + "/";
+  }
   module.exports.entry[name] = path.resolve(
     __dirname,
     `../src/${name}/script.js`
@@ -17,7 +22,7 @@ const addProject = (name) => {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, `../src/${name}/index.html`),
       chunks: [name],
-      filename: `${name}/index.html`,
+      filename: `${output}index.html`,
       minify: true,
     })
   );
@@ -31,8 +36,6 @@ const tree = dirTree("./src/");
 
 // Add the project to the webpack config
 tree.children.forEach((project) => {
-  console.log(project.name);
-
   addProject(project.name);
 });
 
