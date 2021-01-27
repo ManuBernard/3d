@@ -1,10 +1,10 @@
-const CopyWebpackPlugin = require("copy-webpack-plugin");
+const dirTree = require("directory-tree");
+
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 
-module.exports = { entry: {}, plugins: [] };
-
+// Method to add a project to the webpack config
 const addProject = (name) => {
   console.log(`../src/${name}/index.html`);
 
@@ -16,16 +16,24 @@ const addProject = (name) => {
   module.exports.plugins.push(
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, `../src/${name}/index.html`),
+      chunks: [name],
       filename: `${name}/index.html`,
       minify: true,
     })
   );
 };
 
-const projects = ["clock", "solarsystem"];
+// Init webpack module
+module.exports = { entry: {}, plugins: [] };
 
-projects.forEach((project) => {
-  addProject(project);
+// For all projects in the src folder
+const tree = dirTree("./src/");
+
+// Add the project to the webpack config
+tree.children.forEach((project) => {
+  console.log(project.name);
+
+  addProject(project.name);
 });
 
 module.exports.output = {
@@ -34,10 +42,8 @@ module.exports.output = {
 };
 
 module.exports.devtool = "source-map";
+
 module.exports.plugins.push(
-  new CopyWebpackPlugin({
-    patterns: [{ from: path.resolve(__dirname, "../static") }],
-  }),
   new MiniCSSExtractPlugin({ filename: "[name]/style.css" })
 );
 
@@ -59,7 +65,7 @@ module.exports.module = {
     // CSS
     {
       test: /\.css$/,
-      use: [MiniCSSExtractPlugin.loader, "css-loader"],
+      use: [MiniCSSExtractPlugin.loader, "css-loader", "postcss-loader"],
     },
     {
       test: /\.(jpg|png|gif|svg)$/,

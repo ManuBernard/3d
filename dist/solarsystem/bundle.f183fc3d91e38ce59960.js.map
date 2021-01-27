@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/script.js"],"names":["console","log"],"mappings":"mBAEAA,QAAQC,IAAI,U","file":"solarsystem/bundle.f183fc3d91e38ce59960.js","sourcesContent":["import \"./style.css\";\n\nconsole.log(\"clock\");\n"],"sourceRoot":""}
