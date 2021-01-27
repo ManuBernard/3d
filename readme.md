@@ -15,9 +15,12 @@ npm run dev
 # Build for production in the dist/ directory
 npm run build
 
-# Create a new playground
-npm run create
+# Create and launch a new playground
+npm run create <name>
 
-# Launch playground environment
-npm run play
 ```
+
+## Playgrounds
+
+Are environments to quickly play with threejs.
+Launching the command `npm run create mynewplayground` will duplicate the templates/playground folder in the playground and start a server located to the proper URL.
