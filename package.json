@@ -2,8 +2,7 @@
   "scripts": {
     "build": "webpack --config ./bundler/webpack.prod.js",
     "dev": "webpack serve --config ./bundler/webpack.dev.js",
-    "new": "node createplayground.js",
-    "play": "webpack serve --config ./bundler/webpack.play.js"
+    "play": "node createplayground.js"
   },
   "dependencies": {
     "@babel/core": "^7.12.10",

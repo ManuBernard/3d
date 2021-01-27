@@ -15,6 +15,7 @@ module.exports = merge(commonConfiguration, {
     contentBase: "./distplay",
     watchContentBase: true,
     open: true,
+    openPage: process.env["test"],
     https: false,
     useLocalIp: true,
     disableHostCheck: true,

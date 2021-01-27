@@ -1,16 +1,24 @@
 const fse = require("fs-extra");
+const fs = require("fs"); // Or `import fs from "fs";` with ESM
 
 const arguments = process.argv.slice(2);
 const name = arguments[0];
 
-console.log(name);
-const srcDir = `playground/template`;
+const { exec } = require("child_process");
+
+const srcDir = `templates/playground`;
 const destDir = `playground/${name}`;
 
-fse.copySync(srcDir, destDir, { overwrite: true }, function (err) {
-  if (err) {
-    console.error(err);
-  } else {
-    console.log("success!");
-  }
-});
+if (!fs.existsSync(destDir)) {
+  fse.copySync(srcDir, destDir, { overwrite: true }, function (err) {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log("success!");
+    }
+  });
+}
+
+process.env["test"] = name;
+
+exec("webpack serve --config ./bundler/webpack.play.js");
