@@ -8,6 +8,9 @@ import * as dat from "dat.gui";
  * Base
  */
 // Debug
+
+console.log("io");
+
 const gui = new dat.GUI();
 
 // Canvas
