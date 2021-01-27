@@ -9,7 +9,7 @@ import * as dat from "dat.gui";
  */
 // Debug
 
-console.log("io");
+console.log("io2");
 
 const gui = new dat.GUI();
 
