@@ -1,5 +1,5 @@
 const fse = require("fs-extra");
-const fs = require("fs"); // Or `import fs from "fs";` with ESM
+const fs = require("fs");
 
 const arguments = process.argv.slice(2);
 const name = arguments[0];
@@ -18,9 +18,5 @@ if (!fs.existsSync(destDir)) {
     }
   });
 }
-
-process.env["toOpen"] = name;
-
-exec("webpack serve --config ./bundler/webpack.dev.js");
 
 exec("code src/" + name + "/script.js");
