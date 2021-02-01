@@ -8,11 +8,8 @@ const path = require("path");
 const addProject = (name) => {
   let output;
 
-  if (name === "home") {
-    output = "";
-  } else {
-    output = name + "/";
-  }
+  output = name + "/";
+
   module.exports.entry[name] = path.resolve(
     __dirname,
     `../src/${name}/script.js`
