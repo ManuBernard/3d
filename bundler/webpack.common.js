@@ -1,5 +1,5 @@
 const dirTree = require("directory-tree");
-
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
@@ -42,6 +42,12 @@ module.exports.output = {
 };
 
 module.exports.devtool = "source-map";
+
+module.exports.plugins.push(
+  new CopyWebpackPlugin({
+    patterns: [{ from: path.resolve(__dirname, "../static") }],
+  })
+);
 
 module.exports.plugins.push(
   new MiniCSSExtractPlugin({ filename: "[name]/style.css" })
