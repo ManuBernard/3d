@@ -50,8 +50,6 @@ gui.add(debug, "tmode");
 gui.add(debug, "iddle");
 
 gltfLoader.load("/3d/girl.gltf", (g) => {
-  // gltf.animations.push(anim)
-
   gltf = g;
 
   window.requestAnimationFrame(() => {
