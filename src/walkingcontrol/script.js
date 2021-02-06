@@ -8,7 +8,6 @@ import "./js/init.js";
 import { textureLoader } from "./js/textureLoader.js";
 import { scene } from "./js/scene.js";
 import { animations } from "./js/animation.js";
-import { gui } from "./js/debug.js";
 
 import Player from "./js/player";
 
@@ -35,11 +34,6 @@ const debug = {
     switchAction("iddle");
   },
 };
-
-gui.add(debug, "walk");
-gui.add(debug, "run");
-gui.add(debug, "tmode");
-gui.add(debug, "iddle");
 
 /**
  * Player

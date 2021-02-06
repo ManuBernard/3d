@@ -46,11 +46,26 @@ export default class Player {
   onTick() {
     const mz = this.controller.movingZ[0];
     const mx = this.controller.movingX[0];
+
+    if (this._isMoving) {
+      if (this.controller.running && !this.running) {
+        this.animations.run();
+      } else if (!this.controller.running && this.running) {
+        this.animations.walk();
+      }
+    }
+
+    this.running = this.controller.running;
     let calculatedSpeedBasedOnAngle = this.options.speed;
+
     if (mz || mx) {
       if (!this._isMoving) {
-        calculatedSpeedBasedOnAngle = 0.8;
-        this.animations.run();
+        calculatedSpeedBasedOnAngle = Math.sin(45) * this.options.speed;
+        if (this.running) {
+          this.animations.run();
+        } else {
+          this.animations.walk();
+        }
       }
       this._isMoving = true;
     } else {
@@ -59,6 +74,9 @@ export default class Player {
       }
       this._isMoving = false;
     }
+
+    if (this.running) calculatedSpeedBasedOnAngle *= 2;
+
     if (mz) {
       const vector =
         mz == "up" ? -calculatedSpeedBasedOnAngle : calculatedSpeedBasedOnAngle;

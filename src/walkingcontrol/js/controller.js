@@ -2,7 +2,7 @@ export default class Controller {
   constructor() {
     this.movingX = [];
     this.movingZ = [];
-
+    this.running = false;
     this._initDirectionnalMovement();
   }
 
@@ -31,6 +31,8 @@ export default class Controller {
           if (index === -1) {
             this.movingX.unshift("right");
           }
+        } else if (event.keyCode == 32) {
+          this.running = true;
         }
       }.bind(this),
       false
@@ -60,6 +62,8 @@ export default class Controller {
           if (this.movingX.indexOf("right") !== -1) {
             this.movingX.splice(index, 1);
           }
+        } else if (event.keyCode == 32) {
+          this.running = false;
         }
       }.bind(this),
       false
