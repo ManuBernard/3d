@@ -89,6 +89,11 @@ gltfLoader.load("/3d/levelgobz.glb", (gltf) => {
   gltf.scene.traverse(function (object) {
     // if (object.isMesh) object.castShadow = true;
     if (object.isMesh) object.receiveShadow = true;
+
+    if (object.name.startsWith("invisible")) {
+      console.log(object);
+      object.material.visible = false;
+    }
   });
 
   player.collisionObject = [];
@@ -128,7 +133,7 @@ gui.add(dirLight.position, "y").min(-5).max(5).step(0.001).name("lightY");
 gui.add(dirLight.position, "z").min(-5).max(5).step(0.001).name("lightZ");
 
 const debug = {
-  background: 0xffffff,
+  background: 0x92bee8,
   fogNear: 15,
   fogFar: 80,
 };

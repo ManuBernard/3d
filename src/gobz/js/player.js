@@ -78,7 +78,8 @@ export default class Player {
 
   jumpStart() {
     if (this.onTheGround && this.jump.ready) {
-      this.sounds.jump.play();
+      // this.sounds.jump.play();
+
       this.jump.active = true;
       this.jump.ready = false;
       this.direction.position.y += 0.5;
@@ -132,16 +133,16 @@ export default class Player {
     }
 
     // Play sound
-    if (this.isMoving) {
-      if (this.running) {
-        this.sounds.run.play();
-      } else {
-        this.sounds.walk.play();
-      }
-    } else {
-      this.sounds.walk.pause();
-      this.sounds.run.pause();
-    }
+    // if (this.isMoving) {
+    //   if (this.running) {
+    //     this.sounds.run.play();
+    //   } else {
+    //     this.sounds.walk.play();
+    //   }
+    // } else {
+    //   this.sounds.walk.pause();
+    //   this.sounds.run.pause();
+    // }
 
     // Update running
     this.running = this.controller.running;
