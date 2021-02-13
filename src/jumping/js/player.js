@@ -87,7 +87,7 @@ export default class Player {
 
   playVictory() {
     this.victory = true;
-    const victorySound = new Audio("./sounds/victory.mp3");
+    const victorySound = new Audio("/sounds/victory.mp3");
     victorySound.play();
     this.currentAction = this.actions.twerk;
   }
