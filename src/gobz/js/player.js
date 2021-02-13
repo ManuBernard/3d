@@ -36,6 +36,16 @@ export default class Player {
     this.initBody();
 
     this.controller = new Controller();
+
+    this.sounds = {
+      jump: new Audio("/sounds/jump.mp3"),
+      victory: new Audio("/sounds/victory.mp3"),
+      walk: new Audio("/sounds/walk.mp3"),
+      run: new Audio("/sounds/run.mp3"),
+    };
+
+    this.sounds.walk.loop = true;
+    this.sounds.run.loop = true;
   }
 
   addBody(body) {
@@ -68,6 +78,7 @@ export default class Player {
 
   jumpStart() {
     if (this.onTheGround && this.jump.ready) {
+      this.sounds.jump.play();
       this.jump.active = true;
       this.jump.ready = false;
       this.direction.position.y += 0.5;
@@ -91,8 +102,7 @@ export default class Player {
 
   playVictory() {
     this.victory = true;
-    const victorySound = new Audio("/sounds/victory.mp3");
-    victorySound.play();
+    this.sounds.victory.play();
     this.currentAction = this.actions.twerk;
   }
   /**
@@ -119,6 +129,18 @@ export default class Player {
       }
     } else {
       this.currentAction = this.actions.iddle;
+    }
+
+    // Play sound
+    if (this.isMoving) {
+      if (this.running) {
+        this.sounds.run.play();
+      } else {
+        this.sounds.walk.play();
+      }
+    } else {
+      this.sounds.walk.pause();
+      this.sounds.run.pause();
     }
 
     // Update running

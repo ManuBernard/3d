@@ -42,7 +42,7 @@ scene.add(player.direction);
 animations.push(function (elapsedTime, deltaTime) {
   camera.lookAt(player.direction.position);
   if (!player.victory) {
-    camera.position.z = camera.player.direction.position.z + 18;
+    //camera.position.z = camera.player.direction.position.z + 18;
     camera.position.y = camera.player.direction.position.y + 4;
     camera.position.x = camera.player.direction.position.x;
   } else {
