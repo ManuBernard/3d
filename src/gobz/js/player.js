@@ -8,6 +8,7 @@ export default class Player {
   constructor(options) {
     this.direction = null;
     this.body = null;
+    this.collision = null;
 
     this.rayDirection = new THREE.Raycaster();
     this.rayVertical = new THREE.Raycaster();
@@ -24,6 +25,7 @@ export default class Player {
 
     this.options = {
       speed: 0.1,
+      runSpeed: 3,
       jumpStep: 0.1,
       jumpHeigh: 5,
       jumpDelay: 350,
@@ -75,8 +77,10 @@ export default class Player {
   }
 
   jumpEnd() {
+    if (!this.jump.active) return;
     this.jump.step = 0;
     this.jump.active = false;
+
     window.setTimeout(
       function () {
         this.jump.ready = true;
@@ -133,7 +137,7 @@ export default class Player {
     }
 
     // Update speed if running
-    if (this.running) calculatedSpeedBasedOnAngle *= 2;
+    if (this.running) calculatedSpeedBasedOnAngle *= this.options.runSpeed;
 
     // Jump
     let newPlayerJumpY;
@@ -236,7 +240,6 @@ export default class Player {
 
       horizontalRayCasterDirection.normalize();
 
-      console.log(this.collisionObject);
       this.rayVertical.set(rayHorizontalOrigin, horizontalRayCasterDirection);
       const wallIntersects = this.rayVertical.intersectObjects(
         this.collisionObject
@@ -244,7 +247,7 @@ export default class Player {
 
       if (
         wallIntersects.length &&
-        wallIntersects[0].distance < (this.running ? 2.5 : 0.5)
+        wallIntersects[0].distance < (this.running ? 2.5 : 1.5)
       ) {
         canMove = false;
       }
@@ -278,6 +281,15 @@ export default class Player {
     this.direction.material.visible = true;
     this.direction.name = "Player";
     this.direction.userData.preserve = true;
+  }
+
+  initCollision() {
+    this.collision = new THREE.Mesh(
+      new THREE.BoxGeometry(2, 2, 1),
+      new THREE.MeshStandardMaterial({ color: "red", wireframe: true })
+    );
+
+    this.direction.add(this.collision);
   }
 
   initBody() {
