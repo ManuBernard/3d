@@ -1,6 +1,7 @@
 import * as THREE from "three";
 
 import { scene } from "./scene.js";
+import { controls } from "./controls.js";
 import { renderer } from "./renderer.js";
 import { camera } from "./camera.js";
 
@@ -16,9 +17,11 @@ const tick = () => {
   const deltaTime = elapsedTime - previousTime;
   previousTime = elapsedTime;
 
+  controls.update();
+
   // Play animation
   animations.forEach((animation) => {
-    animation(elapsedTime, deltaTime);
+    //  animation(elapsedTime, deltaTime);
   });
 
   // Rerender the scene

@@ -6,7 +6,7 @@ const name = arguments[0];
 
 const { exec } = require("child_process");
 
-const srcDir = `templates/playground`;
+const srcDir = `templates/journey`;
 const destDir = `src/${name}`;
 
 if (!fs.existsSync(destDir)) {

@@ -15,6 +15,8 @@ import Player from "./js/player";
 
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
+const loader = new THREE.TextureLoader();
+
 const cubeTextureLoader = new THREE.CubeTextureLoader();
 // Debug
 const gui = new dat.GUI();
@@ -62,7 +64,7 @@ animations.push(function (elapsedTime, deltaTime) {
  * Level
  */
 let mixer;
-gltfLoader.load("/3d/levelgobz.glb", (gltf) => {
+gltfLoader.load("/3d/gobz/ground.glb", (gltf) => {
   mixer = new THREE.AnimationMixer(gltf.scene);
 
   console.log(gltf);
@@ -73,8 +75,6 @@ gltfLoader.load("/3d/levelgobz.glb", (gltf) => {
   gltf.scene.scale.z = 5;
 
   gltf.scene.position.y = -0.5;
-
-  gltf.scene.rotation.y = Math.PI / 2;
 
   gltf.animations.forEach((animation) => {
     const action = mixer.clipAction(animation);
@@ -133,12 +133,15 @@ gui.add(dirLight.position, "y").min(-5).max(5).step(0.001).name("lightY");
 gui.add(dirLight.position, "z").min(-5).max(5).step(0.001).name("lightZ");
 
 const debug = {
-  background: 0x92bee8,
-  fogNear: 15,
-  fogFar: 80,
+  background: "#c1eaf7",
+  fogNear: 4,
+  fogFar: 47,
 };
 
-// scene.add(floor);
+loader.load("/textures/background.png", function (texture) {
+  scene.background = texture;
+});
+
 scene.background = new THREE.Color(debug.background);
 scene.fog = new THREE.Fog(debug.background, debug.fogNear, debug.fogFar);
 
@@ -158,7 +161,7 @@ gui
 gui
   .add(debug, "fogFar")
   .min(15)
-  .max(100)
+  .max(300)
   .step(0.1)
   .onChange(() => {
     scene.fog.far = debug.fogFar;
@@ -199,7 +202,7 @@ const updateAllMaterials = () => {
   });
 };
 
-debug.envMapIntensity = 5;
+debug.envMapIntensity = 0.4;
 gui
   .add(debug, "envMapIntensity")
   .min(0)
@@ -211,12 +214,12 @@ gui
  * Environment map
  */
 const environmentMap = cubeTextureLoader.load([
-  "/textures/envmaps/out/px.png",
-  "/textures/envmaps/out/nx.png",
-  "/textures/envmaps/out/py.png",
-  "/textures/envmaps/out/ny.png",
-  "/textures/envmaps/out/pz.png",
-  "/textures/envmaps/out/nz.png",
+  "/textures/envmaps/1/px.jpg",
+  "/textures/envmaps/1/nx.jpg",
+  "/textures/envmaps/1/py.jpg",
+  "/textures/envmaps/1/ny.jpg",
+  "/textures/envmaps/1/pz.jpg",
+  "/textures/envmaps/1/nz.jpg",
 ]);
 
 environmentMap.encoding = THREE.sRGBEncoding;

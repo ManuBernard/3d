@@ -3,7 +3,7 @@ import { scene } from "./scene.js";
 import { sizes } from "./sizes.js";
 
 export const camera = new THREE.PerspectiveCamera(
-  75,
+  55,
   sizes.width / sizes.height,
   0.1,
   100
