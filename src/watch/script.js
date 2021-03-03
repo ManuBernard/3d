@@ -74,7 +74,7 @@ gui
 gltfLoader.load("/models/dubuis.glb", (gltf) => {
   scene.add(gltf.scene)
   gltf.scene.scale.set(0.6, 0.6, 0.6)
-  gltf.scene.position.set(0, -1, 0)
+  gltf.scene.position.set(0, 0, 0)
   gltf.scene.rotation.y = Math.PI * 0.5
 
   updateAllMaterials()
